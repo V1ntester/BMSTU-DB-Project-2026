@@ -19,3 +19,13 @@ void TeamProductMapper::bind_insert(QSqlQuery &query, const TeamProduct &team_pr
     query.bindValue(":team_id", QVariant::fromValue(team_product.team_id));
     query.bindValue(":product_id", QVariant::fromValue(team_product.product_id));
 }
+
+void TeamProductMapper::bind_remove(QSqlQuery &query, long team_id, long product_id) {
+    query.bindValue(":team_id", QVariant::fromValue(team_id));
+    query.bindValue(":product_id", QVariant::fromValue(product_id));
+}
+
+void TeamProductMapper::bind_find_by_ids(QSqlQuery &query, long team_id, long product_id) {
+    query.bindValue(":team_id", QVariant::fromValue(team_id));
+    query.bindValue(":product_id", QVariant::fromValue(product_id));
+}
