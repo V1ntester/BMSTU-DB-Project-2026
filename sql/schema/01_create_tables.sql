@@ -2,14 +2,14 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS roles (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ
 );
 
 CREATE TABLE IF NOT EXISTS positions (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ
 );
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(18) NOT NULL UNIQUE CHECK (phone ~ '^\+\d \(\d{3}\) \d{3}-\d{2}-\d{2}$'),
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ
+    updated_at TIMESTAMPTZ,
 
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT,
     FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE SET NULL,
