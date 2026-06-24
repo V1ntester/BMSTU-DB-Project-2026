@@ -12,7 +12,7 @@
 #include "team_product.hpp"
 #include "team_product_mapper.hpp"
 
-TeamProductRepository::TeamProductRepository(QSqlDatabase db) : Repository(db_)
+TeamProductRepository::TeamProductRepository(QSqlDatabase db) : Repository(db)
 {
 }
 
@@ -61,11 +61,20 @@ std::optional<TeamProduct> TeamProductRepository::find_by_ids(long product_id, l
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM team_products
+        SELECT
+            tp.team_id,
+            tp.product_id,
+            tp.created_at,
+            t.name as team_name,
+            p.name as product_name
+        FROM team_products tp
+        JOIN teams t
+            ON t.id = tp.team_id
+        JOIN products p
+            ON p.id = tp.product_id
         WHERE
-            team_id = :team_id AND 
-            product_id = :product_id
+            tp.team_id = :team_id AND 
+            tp.product_id = :product_id
     )");
 
     TeamProductMapper::bind_find_by_ids(query, team_id, product_id);
@@ -86,8 +95,17 @@ std::vector<TeamProduct> TeamProductRepository::find_all()
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM team_products
+        SELECT 
+            tp.team_id,
+            tp.product_id,
+            tp.created_at,
+            t.name as team_name,
+            p.name as product_name
+        FROM team_products tp
+        JOIN teams t
+            ON t.id = tp.team_id
+        JOIN products p
+            ON p.id = tp.product_id
     )");
 
     if (!query.exec()) {

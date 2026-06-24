@@ -6,7 +6,9 @@
 struct Increment {
   long id = 0;
   long user_id = 0;
+  QString user_email;
   long sprint_backlog_item_id = 0;
+  QString sprint_backlog_item_name;
 
   QString note;
 

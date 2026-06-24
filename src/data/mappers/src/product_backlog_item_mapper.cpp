@@ -10,7 +10,9 @@ ProductBacklogItem ProductBacklogItemMapper::from_query(const QSqlQuery &query)
     ProductBacklogItem product_backlog_item;
 
     product_backlog_item.id = query.value("id").toLongLong();    
+
     product_backlog_item.product_id = query.value("product_id").toLongLong();
+    product_backlog_item.product_name = query.value("product_name").toString();
     
     product_backlog_item.name = query.value("name").toString();
     product_backlog_item.description = query.value("description").toString();

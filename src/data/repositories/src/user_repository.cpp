@@ -12,7 +12,7 @@
 #include "user.hpp"
 #include "user_mapper.hpp"
 
-UserRepository::UserRepository(QSqlDatabase db) : Repository(db_)
+UserRepository::UserRepository(QSqlDatabase db) : Repository(db)
 {
 }
 
@@ -96,8 +96,28 @@ std::optional<User> UserRepository::find_by_id(long id)
    QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM users
+        SELECT 
+            u.id,
+            u.role_id,
+            u.position_id,
+            u.team_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.phone,
+            u.password_hash,
+            u.created_at,
+            u.updated_at,
+            r.name as role_name,
+            p.name as position_name,
+            t.name as team_name
+        FROM users u
+        JOIN roles r
+            ON r.id = u.role_id
+        JOIN positions p
+            ON p.id = u.position_id
+        JOIN teams t
+            ON t.id = u.team_id
         WHERE id = :id
     )");
 
@@ -114,13 +134,85 @@ std::optional<User> UserRepository::find_by_id(long id)
     return  UserMapper::from_query(query);
 }
 
+std::optional<User>
+UserRepository::find_by_email(
+    const QString& email)
+{
+    QSqlQuery query(db_);
+
+    query.prepare(R"(
+        SELECT
+            u.id,
+            u.role_id,
+            u.position_id,
+            u.team_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.phone,
+            u.password_hash,
+            u.created_at,
+            u.updated_at,
+            r.name AS role_name,
+            p.name AS position_name,
+            t.name AS team_name
+        FROM users u
+        JOIN roles r
+            ON r.id = u.role_id
+        JOIN positions p
+            ON p.id = u.position_id
+        JOIN teams t
+            ON t.id = u.team_id
+        WHERE u.email = :email
+    )");
+
+    query.bindValue(
+        ":email",
+        email
+    );
+
+    if (!query.exec()) {
+        throw std::runtime_error(
+            query.lastError()
+                .text()
+                .toStdString()
+        );
+    }
+
+    if (!query.next()) {
+        return std::nullopt;
+    }
+
+    return UserMapper::from_query(query);
+}
+
 std::vector<User> UserRepository::find_all()
 {
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM users
+        SELECT 
+            u.id,
+            u.role_id,
+            u.position_id,
+            u.team_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.phone,
+            u.password_hash,
+            u.created_at,
+            u.updated_at,
+            r.name as role_name,
+            p.name as position_name,
+            t.name as team_name
+        FROM users u
+        JOIN roles r
+            ON r.id = u.role_id
+        JOIN positions p
+            ON p.id = u.position_id
+        JOIN teams t
+            ON t.id = u.team_id
     )");
 
     if (!query.exec()) {

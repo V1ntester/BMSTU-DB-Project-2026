@@ -10,7 +10,9 @@ Review ReviewMapper::from_query(const QSqlQuery &query)
     Review review;
 
     review.id = query.value("id").toLongLong();
+
     review.sprint_id = query.value("sprint_id").toLongLong();
+    review.sprint_name = query.value("sprint_name").toString();
 
     review.name = query.value("name").toString();
     review.description = query.value("description").toString();

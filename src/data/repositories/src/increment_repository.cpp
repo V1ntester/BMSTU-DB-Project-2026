@@ -52,7 +52,7 @@ void IncrementRepository::update(const Increment &increment)
             user_id = :user_id,
             sprint_backlog_item_id = :sprint_backlog_item_id,
             note = :note,
-            completed_story_points = :completed_story_points,
+            completed_story_points = :completed_story_points
         WHERE id = :id
     )");
 
@@ -84,8 +84,21 @@ std::optional<Increment> IncrementRepository::find_by_id(long id)
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM increments
+        SELECT 
+            i.id,
+            i.user_id,
+            i.sprint_backlog_item_id,
+            i.note,
+            i.completed_story_points,
+            i.created_at,
+            i.updated_at,
+            u.email AS user_email,
+            sbi.name AS sprint_backlog_item_name
+        FROM increments i
+        JOIN users u 
+            ON u.id = i.user_id
+        JOIN sprint_backlog_items sbi 
+            ON sbi.id = i.sprint_backlog_item_id
         WHERE id = :id
     )");
 
@@ -107,8 +120,21 @@ std::vector<Increment> IncrementRepository::find_all()
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM increments
+        SELECT 
+            i.id,
+            i.user_id,
+            i.sprint_backlog_item_id,
+            i.note,
+            i.completed_story_points,
+            i.created_at,
+            i.updated_at,
+            u.email AS user_email,
+            sbi.name AS sprint_backlog_item_name
+        FROM increments i
+        JOIN users u 
+            ON u.id = i.user_id
+        JOIN sprint_backlog_items sbi 
+            ON sbi.id = i.sprint_backlog_item_id
     )");
 
     if (!query.exec()) {

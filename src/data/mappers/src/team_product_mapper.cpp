@@ -9,7 +9,9 @@ TeamProduct TeamProductMapper::from_query(const QSqlQuery &query)
 {
     TeamProduct team_product;
     team_product.team_id = query.value("team_id").toLongLong();
+    team_product.team_name = query.value("team_name").toString();
     team_product.product_id = query.value("product_id").toLongLong();
+    team_product.product_name = query.value("product_name").toString();
     team_product.created_at = query.value("created_at").toDateTime();
     return team_product;
 }

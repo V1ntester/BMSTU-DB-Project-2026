@@ -10,7 +10,9 @@ Sprint SprintMapper::from_query(const QSqlQuery &query)
     Sprint sprint;
 
     sprint.id = query.value("id").toLongLong();
+
     sprint.product_id = query.value("product_id").toLongLong();
+    sprint.product_name = query.value("product_name").toString();
 
     sprint.name = query.value("name").toString();
     sprint.goal = query.value("goal").toString();

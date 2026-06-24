@@ -6,8 +6,11 @@
 struct User {
     long id = 0;
     long role_id = 0;
+    QString role_name;
     long position_id = 0;
+    QString position_name;
     long team_id = 0;
+    QString team_name;
 
     QString first_name;
     QString last_name;

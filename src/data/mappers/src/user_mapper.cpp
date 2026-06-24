@@ -10,9 +10,15 @@ User UserMapper::from_query(const QSqlQuery &query)
     User user;
 
     user.id = query.value("id").toLongLong();
+
     user.role_id = query.value("role_id").toLongLong();
+    user.role_name = query.value("role_name").toString();
+
     user.position_id = query.value("position_id").toLongLong();
+    user.position_name = query.value("position_name").toString();
+    
     user.team_id = query.value("team_id").toLongLong();
+    user.team_name = query.value("team_name").toString();
 
     user.first_name = query.value("first_name").toString();
     user.last_name = query.value("last_name").toString();

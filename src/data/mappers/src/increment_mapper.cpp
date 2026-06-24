@@ -10,8 +10,12 @@ Increment IncrementMapper::from_query(const QSqlQuery &query)
     Increment increment;
 
     increment.id = query.value("id").toLongLong();
+
     increment.user_id = query.value("user_id").toLongLong();
+    increment.user_email = query.value("user_email").toString();
+
     increment.sprint_backlog_item_id = query.value("sprint_backlog_item_id").toLongLong();
+    increment.sprint_backlog_item_name = query.value("sprint_backlog_item_name").toString();
 
     increment.note = query.value("note").toString();
 

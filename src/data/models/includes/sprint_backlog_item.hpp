@@ -20,7 +20,9 @@ enum class TaskStatus {
 struct SprintBacklogItem {
     long id = 0;
     long product_backlog_item_id = 0;
+    QString product_backlog_item_name;
     long sprint_id = 0;
+    QString sprint_name;
 
     QString name;
     QString description;

@@ -6,6 +6,7 @@
 struct Sprint {
     long id = 0;
     long product_id = 0;
+    QString product_name;
 
     QString name;
     QString goal;

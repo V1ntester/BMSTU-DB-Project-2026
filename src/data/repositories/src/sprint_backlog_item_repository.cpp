@@ -93,9 +93,25 @@ std::optional<SprintBacklogItem> SprintBacklogItemRepository::find_by_id(long id
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM sprint_backlog_items
-        WHERE id = :id
+        SELECT 
+            sbi.id,
+            sbi.product_backlog_item_id,
+            sbi.sprint_id,
+            sbi.name,
+            sbi.description,
+            sbi.story_points,
+            sbi.priority,
+            sbi.status,
+            sbi.created_at,
+            sbi.updated_at,
+            pbi.name as product_backlog_item_name,
+            s.name as sprint_name
+        FROM sprint_backlog_items sbi
+        JOIN product_backlog_items pbi
+            ON pbi.id = sbi.product_backlog_item_id
+        JOIN sprints s
+            ON s.id = sbi.sprint_id
+        WHERE sbi.id = :id
     )");
 
     query.bindValue(":id", QVariant::fromValue(id));
@@ -116,8 +132,24 @@ std::vector<SprintBacklogItem> SprintBacklogItemRepository::find_all()
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM sprint_backlog_items
+        SELECT 
+            sbi.id,
+            sbi.product_backlog_item_id,
+            sbi.sprint_id,
+            sbi.name,
+            sbi.description,
+            sbi.story_points,
+            sbi.priority,
+            sbi.status,
+            sbi.created_at,
+            sbi.updated_at,
+            pbi.name as product_backlog_item_name,
+            s.name as sprint_name
+        FROM sprint_backlog_items sbi
+        JOIN product_backlog_items pbi
+            ON pbi.id = sbi.product_backlog_item_id
+        JOIN sprints s
+            ON s.id = sbi.sprint_id
     )");
 
     if (!query.exec()) {

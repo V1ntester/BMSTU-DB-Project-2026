@@ -11,8 +11,12 @@ SprintBacklogItem SprintBacklogItemMapper::from_query(const QSqlQuery &query)
     SprintBacklogItem sprint_backlog_item;
 
     sprint_backlog_item.id = query.value("id").toLongLong();
+
     sprint_backlog_item.product_backlog_item_id = query.value("product_backlog_item_id").toLongLong();
+    sprint_backlog_item.product_backlog_item_name = query.value("product_backlog_item_name").toString();
+
     sprint_backlog_item.sprint_id = query.value("sprint_id").toLongLong();
+    sprint_backlog_item.sprint_name = query.value("sprint_name").toString();
 
     sprint_backlog_item.name = query.value("name").toString();
     sprint_backlog_item.description = query.value("description").toString();

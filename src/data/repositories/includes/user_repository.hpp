@@ -17,5 +17,6 @@ class UserRepository : public Repository {
         void remove(long id);
 
         std::optional<User> find_by_id(long id);
+        std::optional<User> find_by_email(const QString& email);
         std::vector<User> find_all();
 };

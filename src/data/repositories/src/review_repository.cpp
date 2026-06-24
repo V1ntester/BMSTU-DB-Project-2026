@@ -81,8 +81,17 @@ std::optional<Review> ReviewRepository::find_by_id(long id)
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM reviews
+        SELECT 
+            r.id,
+            r.sprint_id,
+            r.name,
+            r.description,
+            r.created_at,
+            r.updated_at,
+            s.name as sprint_name
+        FROM reviews r
+        JOIN sprints s
+            ON s.id = r.sprint_id
         WHERE id = :id
     )");
 
@@ -104,8 +113,17 @@ std::vector<Review> ReviewRepository::find_all()
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM reviews
+        SELECT 
+            r.id,
+            r.sprint_id,
+            r.name,
+            r.description,
+            r.created_at,
+            r.updated_at,
+            s.name as sprint_name
+        FROM reviews r
+        JOIN sprints s
+            ON s.id = r.sprint_id
     )");
 
     if (!query.exec()) {

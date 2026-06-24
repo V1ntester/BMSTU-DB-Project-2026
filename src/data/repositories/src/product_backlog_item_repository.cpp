@@ -84,8 +84,18 @@ std::optional<ProductBacklogItem> ProductBacklogItemRepository::find_by_id(long 
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM product_backlog_items
+        SELECT 
+            pbi.id,
+            pbi.product_id,
+            pbi.name,
+            pbi.description,
+            pbi.story_points,
+            pbi.created_at,
+            pbi.updated_at,
+            p.name as product_name
+        FROM product_backlog_items pbi
+        JOIN products p
+            ON p.id = pbi.product_id
         WHERE id = :id
     )");
 
@@ -107,8 +117,18 @@ std::vector<ProductBacklogItem> ProductBacklogItemRepository::find_all()
     QSqlQuery query(db_);
 
     query.prepare(R"(
-        SELECT *
-        FROM product_backlog_items
+        SELECT
+            pbi.id,
+            pbi.product_id,
+            pbi.name,
+            pbi.description,
+            pbi.story_points,
+            pbi.created_at,
+            pbi.updated_at,
+            p.name as product_name
+        FROM product_backlog_items pbi
+        JOIN products p
+            ON p.id = pbi.product_id
     )");
 
     if (!query.exec()) {
